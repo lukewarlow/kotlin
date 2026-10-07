@@ -671,6 +671,9 @@ String platformName(KonanTarget target) {
         case KonanTarget.LINUX_X64:
             result ="linux-x86_64"
             break
+        case KonanTarget.LINUX_ARM64:
+            result = "linux-aarch64"
+            break
         case KonanTarget.MACOS_X64:
             result = "macos-x86_64"
             break

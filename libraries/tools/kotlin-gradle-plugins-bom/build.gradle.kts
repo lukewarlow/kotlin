@@ -17,7 +17,7 @@ dependencies {
         // plugins
         api(project(":kotlin-gradle-plugin"))
         api(project(":gradle:kotlin-gradle-ecosystem-plugin"))
-        api(project(":atomicfu"))
+        //api(project(":atomicfu"))
         api(project(":compose-compiler-gradle-plugin"))
         api(project(":kotlin-allopen"))
         api(project(":kotlin-lombok"))

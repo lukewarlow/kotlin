@@ -158,7 +158,7 @@ sealed class ClangArgs(
                 else -> emptyList()
             }
         }
-
+        KonanTarget.LINUX_ARM64 -> listOf("-mno-outline-atomics")
         else -> emptyList()
     }
 

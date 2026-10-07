@@ -10,6 +10,7 @@ import java.lang.Exception
 
 @Suppress("DEPRECATION") // Uses deprecated SubTargetProvider in other deprecated APIs
 open class HostManager() {
+
     fun targetManager(userRequest: String? = null): TargetManager = TargetManagerImpl(userRequest, this)
 
     @Suppress("UNUSED_PARAMETER")
@@ -48,6 +49,14 @@ open class HostManager() {
         return targets[resolveAlias(name)] ?: throw TargetSupportException("Unknown target name: $name")
     }
 
+    // Android targets are excluded for Linux arm64 hosts.
+    // Android NDK host tooling is not supported on Linux arm64.
+    private val linuxArmTargets = setOf(
+//        LINUX_X64,
+        LINUX_ARM64,
+//        MINGW_X64,
+    )
+
     private val commonTargets = setOf(
         LINUX_X64,
         LINUX_ARM32_HFP,
@@ -77,6 +86,7 @@ open class HostManager() {
 
     val enabledByHost: Map<KonanTarget, Set<KonanTarget>> = mapOf(
         LINUX_X64 to commonTargets,
+        LINUX_ARM64 to linuxArmTargets,
         MINGW_X64 to commonTargets,
         MACOS_X64 to commonTargets + appleTargets,
         MACOS_ARM64 to commonTargets + appleTargets
@@ -128,6 +138,7 @@ open class HostManager() {
             get() = when (host) {
                 MACOS_X64,
                 MACOS_ARM64 -> "darwin"
+                LINUX_ARM64,
                 LINUX_X64 -> "linux"
                 MINGW_X64 -> "win32"
                 else -> throw TargetSupportException("Unknown host: $host.")
@@ -154,6 +165,7 @@ open class HostManager() {
             Pair("osx", "x86_64") to MACOS_X64,
             Pair("osx", "aarch64") to MACOS_ARM64,
             Pair("linux", "x86_64") to LINUX_X64,
+            Pair("linux", "aarch64") to LINUX_ARM64,
             Pair("windows", "x86_64") to MINGW_X64
         )
 

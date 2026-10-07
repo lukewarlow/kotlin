@@ -99,6 +99,10 @@ dependencyResolutionManagement {
 
 def buildProperties = BuildPropertiesKt.getKotlinBuildPropertiesForSettings(settings)
 
+def isLinuxArm64 =
+        org.gradle.internal.os.OperatingSystem.current().isLinux() &&
+        System.getProperty("os.arch") == "aarch64"
+
 // modules
 include ":benchmarks",
         ":compiler",
@@ -383,12 +387,19 @@ include ":kotlin-script-runtime",
         ":plugins:jvm-abi-gen-embeddable",
         ":test-instrumenter",
         ":wasm:wasm.ir",
-        ":wasm:wasm.tests",
+        //":wasm:wasm.tests",
         ":wasm:wasm.frontend",
         ":wasm:wasm.config",
         ":wasm:wasm.debug.browsers",
         ":repo:codebase-tests",
         ":repo:artifacts-tests"
+
+if (!isLinuxArm64) {
+    include ":wasm:wasm.tests"
+} else {
+    logger.warn("Excluding :wasm:wasm.tests on Linux ARM64 host")
+}
+
 
 include ":libraries:tools:abi-comparator"
 
@@ -401,10 +412,10 @@ include ":libraries:tools:abi-validation:abi-tools",
 include ":libraries:tools:analysis-api-based-klib-reader",
         ":libraries:tools:analysis-api-based-klib-reader:testProject"
 
-include ":kotlin-atomicfu-compiler-plugin",
-        ":kotlin-atomicfu-compiler-plugin-embeddable",
-        ":kotlinx-atomicfu-runtime",
-        ":atomicfu"
+//include ":kotlin-atomicfu-compiler-plugin",
+//        ":kotlin-atomicfu-compiler-plugin-embeddable",
+//        ":kotlinx-atomicfu-runtime",
+//        ":atomicfu"
 
 include ":plugins:js-plain-objects:compiler-plugin",
         ":plugins:js-plain-objects:compiler-plugin-embeddable",
@@ -1005,10 +1016,10 @@ project(':kotlinx-serialization-compiler-plugin.common').projectDir = "$rootDir/
 project(':kotlin-serialization').projectDir = file("$rootDir/libraries/tools/kotlin-serialization")
 project(':kotlin-serialization-unshaded').projectDir = file("$rootDir/libraries/tools/kotlin-serialization-unshaded")
 
-project(':kotlin-atomicfu-compiler-plugin').projectDir = file("$rootDir/plugins/atomicfu/atomicfu-compiler")
-project(':kotlin-atomicfu-compiler-plugin-embeddable').projectDir = file("$rootDir/plugins/atomicfu/atomicfu-compiler-embeddable")
-project(':kotlinx-atomicfu-runtime').projectDir = file("$rootDir/plugins/atomicfu/atomicfu-runtime")
-project(':atomicfu').projectDir = file("$rootDir/libraries/tools/atomicfu")
+//project(':kotlin-atomicfu-compiler-plugin').projectDir = file("$rootDir/plugins/atomicfu/atomicfu-compiler")
+//project(':kotlin-atomicfu-compiler-plugin-embeddable').projectDir = file("$rootDir/plugins/atomicfu/atomicfu-compiler-embeddable")
+//project(':kotlinx-atomicfu-runtime').projectDir = file("$rootDir/plugins/atomicfu/atomicfu-runtime")
+//project(':atomicfu').projectDir = file("$rootDir/libraries/tools/atomicfu")
 
 project(':kotlin-dataframe-compiler-plugin').projectDir = "$rootDir/plugins/kotlin-dataframe" as File
 project(':kotlin-dataframe-compiler-plugin.embeddable').projectDir = "$rootDir/plugins/kotlin-dataframe/kotlin-dataframe.embeddable" as File

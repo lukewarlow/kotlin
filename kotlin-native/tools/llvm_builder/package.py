@@ -137,6 +137,10 @@ def construct_cmake_flags(
             cxx_compiler = f'{bootstrap_llvm_path}/bin/clang++'
             linker = f'{bootstrap_llvm_path}/bin/ld.lld'
             ar = f'{bootstrap_llvm_path}/bin/llvm-ar'
+
+            c_flags = ['-mno-outline-atomics']
+            cxx_flags = ['-mno-outline-atomics']
+            linker_flags = ['-mno-outline-atomics']
         elif host_is_darwin():
             c_compiler = f'{bootstrap_llvm_path}/bin/clang'
             cxx_compiler = f'{bootstrap_llvm_path}/bin/clang++'

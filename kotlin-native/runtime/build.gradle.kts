@@ -654,7 +654,9 @@ val stdlibBuildTask by tasks.registering(KonanCompileTask::class) {
     group = BasePlugin.BUILD_GROUP
     description = "Build the Kotlin/Native standard library"
 
-    this.compilerDistribution.set(nativeBootstrapDistribution)
+    dependsOn(":kotlin-native:distCompilerJars")
+
+    this.compilerDistribution.set(nativeDistribution)
 
     this.outputDirectory.set(
             layout.buildDirectory.dir("stdlib/${HostManager.hostName}/stdlib")

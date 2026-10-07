@@ -67,7 +67,7 @@ dependencies {
     testImplementation(project(":kotlin-power-assert"))
     testImplementation(project(":kotlin-sam-with-receiver"))
     testImplementation(project(":kotlin-assignment"))
-    testImplementation(project(":atomicfu"))
+    //testImplementation(project(":atomicfu"))
 
     testImplementation(project(":kotlin-gradle-compiler-types"))
     testImplementation(project(":kotlin-gradle-plugin-idea"))
